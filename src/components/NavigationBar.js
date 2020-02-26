@@ -1,21 +1,28 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from "react-router-dom";
-// import jwtDecode from 'jwt-decode';
 import { connect } from "react-redux";
+import jwtDecode from 'jwt-decode';
 
 const { Header } = Layout;
+
+const userInfo = state => {
+    const token = localStorage.getItem("jwtToken");
+    if(token) {
+        return jwtDecode(token);
+    }
+    else 
+        return state.auth.user;
+}
 
 class NavigationBar extends React.Component {
     render() {
         const { username } = this.props.user;
         return (
             <Header>
-                <div className="logo" />
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={['1']}
                     style={{ lineHeight: '64px' }} >
                     <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
                     { username ? <Menu.Item style={{ float: "right" }} key="2"><Link to="/account/login">Logout - { username }</Link></Menu.Item> : <Menu.Item style={{ float: "right" }} key="2"><Link to="/account/login">Login</Link></Menu.Item> }
@@ -28,7 +35,7 @@ class NavigationBar extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.auth.user
+        user: userInfo(state)
     };
 };
 

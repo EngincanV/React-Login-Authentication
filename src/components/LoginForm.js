@@ -25,13 +25,10 @@ class LoginForm extends Component {
     render() {
         const { isAuthenticated, error, errorMessage } = this.props;
         const { getFieldDecorator } = this.props.form;
-        if (isAuthenticated) {
-            setTimeout(() => {
-                this.props.history.push('/');
-            }, 2000);
-        }
+        if (isAuthenticated) 
+            this.props.history.push('/');
         return (
-            <div style={{ display: "flex", justifyContent: "center", width: "300px" }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
                 <Form onSubmit={this.handleSubmit} className="login-form">
                     <h1 style={{ textAlign: "center" }}>Login</h1>
                     <Form.Item>
